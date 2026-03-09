@@ -7,23 +7,19 @@ import java.util.List;
 @RequestMapping("/workspaces")
 public class WorkspaceController {
 
-    private final WorkspaceRepository workspaceRepository;
+    private final WorkspaceService workspaceService;
 
-    public WorkspaceController(WorkspaceRepository workspaceRepository) {
-        this.workspaceRepository = workspaceRepository;
+    public WorkspaceController(WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
     }
 
     @PostMapping
     public Workspace createWorkspace(@RequestBody CreateWorkspaceRequest request) {
-
-        Workspace workspace = new Workspace();
-        workspace.setName(request.getName());
-
-        return workspaceRepository.save(workspace);
+        return workspaceService.createWorkspace(request.getName());
     }
 
     @GetMapping
     public List<Workspace> getWorkspaces() {
-        return workspaceRepository.findAll();
+        return workspaceService.getAllWorkspaces();
     }
 }
