@@ -14,15 +14,20 @@ public class WorkspaceService {
 
     public Workspace createWorkspace(String name) {
 
-    workspaceRepository.findByName(name)
-        .ifPresent(w -> {
-            throw new RuntimeException("Workspace with that name already exists");
-        });
+        workspaceRepository.findByName(name)
+            .ifPresent(w -> {
+                throw new RuntimeException("Workspace with that name already exists");
+            });
 
-    Workspace workspace = new Workspace();
-    workspace.setName(name);
+        Workspace workspace = new Workspace();
+        workspace.setName(name);
 
-    return workspaceRepository.save(workspace);
+        return workspaceRepository.save(workspace);
+    }
+
+    public Workspace getWorkspaceById(Long id) {
+        return workspaceRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Workspace not found"));
     }
 
     public List<Workspace> getAllWorkspaces() {

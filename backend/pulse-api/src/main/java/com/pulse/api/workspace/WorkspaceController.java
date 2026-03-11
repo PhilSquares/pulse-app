@@ -22,4 +22,9 @@ public class WorkspaceController {
     public List<Workspace> getWorkspaces() {
         return workspaceService.getAllWorkspaces();
     }
+
+    @GetMapping("/{id}")
+    public Workspace getWorkspaceById(@PathVariable Long id) {
+        return workspaceService.getWorkspaceById(id);
+    }
 }
