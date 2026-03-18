@@ -27,4 +27,9 @@ public class WorkspaceController {
     public Workspace getWorkspaceById(@PathVariable Long id) {
         return workspaceService.getWorkspaceById(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteWorkspace(@PathVariable Long id) {
+        workspaceService.deleteWorkspace(id);
+    }
 }

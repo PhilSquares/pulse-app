@@ -33,4 +33,13 @@ public class WorkspaceService {
     public List<Workspace> getAllWorkspaces() {
         return workspaceRepository.findAll();
     }
+
+    public void deleteWorkspace(Long id) {
+
+    if (!workspaceRepository.existsById(id)) {
+        throw new RuntimeException("Workspace not found");
+    }
+
+    workspaceRepository.deleteById(id);
+    }
 }
