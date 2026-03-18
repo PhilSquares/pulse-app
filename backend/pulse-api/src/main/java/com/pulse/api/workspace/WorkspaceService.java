@@ -27,7 +27,7 @@ public class WorkspaceService {
 
     public Workspace getWorkspaceById(Long id) {
         return workspaceRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Workspace not found"));
+            .orElseThrow(() -> new WorkspaceNotFoundException(id));
     }
 
     public List<Workspace> getAllWorkspaces() {
@@ -37,7 +37,7 @@ public class WorkspaceService {
     public void deleteWorkspace(Long id) {
 
     if (!workspaceRepository.existsById(id)) {
-        throw new RuntimeException("Workspace not found");
+        throw new WorkspaceNotFoundException(id);
     }
 
     workspaceRepository.deleteById(id);
