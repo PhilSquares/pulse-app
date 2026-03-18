@@ -1,6 +1,8 @@
 package com.pulse.api.workspace;
 
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -14,7 +16,7 @@ public class WorkspaceController {
     }
 
     @PostMapping
-    public Workspace createWorkspace(@RequestBody CreateWorkspaceRequest request) {
+    public Workspace createWorkspace(@RequestBody @Valid CreateWorkspaceRequest request) {
         return workspaceService.createWorkspace(request.getName());
     }
 
