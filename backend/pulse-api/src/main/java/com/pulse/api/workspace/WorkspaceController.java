@@ -1,6 +1,7 @@
 package com.pulse.api.workspace;
 
 import org.springframework.web.bind.annotation.*;
+import com.pulse.api.workspace.dto.WorkspaceResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -16,18 +17,35 @@ public class WorkspaceController {
     }
 
     @PostMapping
-    public Workspace createWorkspace(@RequestBody @Valid CreateWorkspaceRequest request) {
-        return workspaceService.createWorkspace(request.getName());
-    }
+    public WorkspaceResponse createWorkspace(@RequestBody @Valid CreateWorkspaceRequest request) {
+
+    Workspace workspace = workspaceService.createWorkspace(request.getName());
+
+    return new WorkspaceResponse(
+        workspace.getId(),
+        workspace.getName()
+        
+    );
+    } 
 
     @GetMapping
-    public List<Workspace> getWorkspaces() {
-        return workspaceService.getAllWorkspaces();
+    public List<WorkspaceResponse> getWorkspaces() {
+
+    return workspaceService.getAllWorkspaces()
+        .stream()
+        .map(w -> new WorkspaceResponse(w.getId(), w.getName()))
+        .toList();
     }
 
     @GetMapping("/{id}")
-    public Workspace getWorkspaceById(@PathVariable Long id) {
-        return workspaceService.getWorkspaceById(id);
+    public WorkspaceResponse getWorkspaceById(@PathVariable Long id) {
+
+    Workspace workspace = workspaceService.getWorkspaceById(id);
+
+    return new WorkspaceResponse(
+        workspace.getId(),
+        workspace.getName()
+    );
     }
 
     @DeleteMapping("/{id}")
