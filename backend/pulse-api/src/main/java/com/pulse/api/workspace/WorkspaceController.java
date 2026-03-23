@@ -1,6 +1,7 @@
 package com.pulse.api.workspace;
 
 import org.springframework.web.bind.annotation.*;
+import com.pulse.api.common.ApiResponse;
 import com.pulse.api.workspace.dto.WorkspaceResponse;
 import jakarta.validation.Valid;
 
@@ -17,39 +18,48 @@ public class WorkspaceController {
     }
 
     @PostMapping
-    public WorkspaceResponse createWorkspace(@RequestBody @Valid CreateWorkspaceRequest request) {
+    public ApiResponse<WorkspaceResponse> createWorkspace(
+        @RequestBody @Valid CreateWorkspaceRequest request) {
 
     Workspace workspace = workspaceService.createWorkspace(request.getName());
 
-    return new WorkspaceResponse(
+    WorkspaceResponse response = new WorkspaceResponse(
         workspace.getId(),
         workspace.getName()
-        
     );
-    } 
+
+    return new ApiResponse<>(response, "Workspace created successfully");
+    }
 
     @GetMapping
-    public List<WorkspaceResponse> getWorkspaces() {
+    public ApiResponse<List<WorkspaceResponse>> getWorkspaces() {
 
-    return workspaceService.getAllWorkspaces()
+    List<WorkspaceResponse> response = workspaceService.getAllWorkspaces()
         .stream()
         .map(w -> new WorkspaceResponse(w.getId(), w.getName()))
         .toList();
+
+    return new ApiResponse<>(response, "Workspaces retrieved successfully");
     }
 
     @GetMapping("/{id}")
-    public WorkspaceResponse getWorkspaceById(@PathVariable Long id) {
+    public ApiResponse<WorkspaceResponse> getWorkspaceById(@PathVariable Long id) {
 
     Workspace workspace = workspaceService.getWorkspaceById(id);
 
-    return new WorkspaceResponse(
+    WorkspaceResponse response = new WorkspaceResponse(
         workspace.getId(),
         workspace.getName()
     );
+
+    return new ApiResponse<>(response, "Workspace retrieved successfully");
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWorkspace(@PathVariable Long id) {
-        workspaceService.deleteWorkspace(id);
+    public ApiResponse<Void> deleteWorkspace(@PathVariable Long id) {
+
+    workspaceService.deleteWorkspace(id);
+
+    return new ApiResponse<>(null, "Workspace deleted successfully");
     }
 }
