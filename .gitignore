@@ -27,3 +27,6 @@ replay_pid*
 
 # Local development database
 *.mv.db
+
+.env
+application-prod.properties
